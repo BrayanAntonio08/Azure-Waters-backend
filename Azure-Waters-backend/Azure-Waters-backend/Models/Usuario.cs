@@ -5,7 +5,7 @@ namespace Azure_Waters_backend.Models;
 
 public partial class Usuario
 {
-    public int UsuarioId { get; set; }
+    public int? UsuarioId { get; set; }
 
     public string NombreUsuario { get; set; } = null!;
 
