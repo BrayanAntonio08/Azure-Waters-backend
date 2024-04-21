@@ -22,4 +22,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AW.AccesoDatos\AW.AccesoDatos.csproj" />
+    <ProjectReference Include="..\AW.Entidades\AW.Entidades.csproj" />
+  </ItemGroup>
+
 </Project>
