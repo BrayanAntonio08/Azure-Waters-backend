@@ -1,4 +1,6 @@
-using Azure_Waters_backend.Models;
+using Aw.AccesoDatos;
+using AW.AccesoDatos;
+using AW.Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,13 +10,13 @@ namespace Azure_Waters_backend.Controllers
     [Route("api/[controller]")]
     public class UsuariosController : ControllerBase
     {
-        private readonly AzureWatersContext _context = new AzureWatersContext();
-
+        //private readonly AzureWatersContext _context = new AzureWatersContext();
+        private UsuarioDatos usuarioDatos = new UsuarioDatos();
 
         [HttpGet]
         public async Task<IActionResult> GetUsuarios()
         {
-            var usuarios = await _context.Usuarios.FromSqlRaw("EXEC ObtenerUsuarios").ToListAsync();
+            List<Usuario> usuarios = usuarioDatos.GetUsuarios();
 
             if (usuarios == null || usuarios.Count == 0)
             {
