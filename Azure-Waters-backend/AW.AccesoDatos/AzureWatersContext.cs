@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using AW.AccesoDatos;
+using AW.Entidades;
 using Microsoft.EntityFrameworkCore;
 
-namespace Azure_Waters_backend.Models;
+namespace Aw.AccesoDatos;
 
 public partial class AzureWatersContext : DbContext
 {
+    private string sqlConnString;
     public AzureWatersContext()
     {
+        this.sqlConnString = ConexionDatos.CONECTION_PC;
+        this.sqlConnString = ConexionDatos.CONECTION_LAPTOP;
     }
 
     public AzureWatersContext(DbContextOptions<AzureWatersContext> options)
@@ -19,15 +24,15 @@ public partial class AzureWatersContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-N2FI4RE;Database=Azure_Waters;User Id=sa;Password=sa123456;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer(this.sqlConnString);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.UsuarioId).HasName("PK__Usuarios__2B3DE7B8499B6054");
+            entity.HasKey(e => e.UsuarioId).HasName("PK_ID");
 
-            entity.HasIndex(e => e.NombreUsuario, "UQ__Usuarios__6B0F5AE084F400A9").IsUnique();
+            entity.HasIndex(e => e.NombreUsuario, "UQ_NombreUsuario").IsUnique();
 
             entity.Property(e => e.Contrasenna).HasMaxLength(10);
             entity.Property(e => e.NombreUsuario).HasMaxLength(30);
