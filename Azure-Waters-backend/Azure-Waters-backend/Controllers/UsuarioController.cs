@@ -1,6 +1,6 @@
-using Aw.AccesoDatos;
 using AW.AccesoDatos;
 using AW.Entidades;
+using Azure_Waters_backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,16 +14,16 @@ namespace Azure_Waters_backend.Controllers
         private UsuarioDatos usuarioDatos = new UsuarioDatos();
 
         [HttpGet]
-        public async Task<IActionResult> GetUsuarios()
+        public async Task<IActionResult> GetUsuario()
         {
-            List<Usuario> usuarios = usuarioDatos.GetUsuarios();
+            List<Usuario> usuario = usuarioDatos.GetUsuario();
 
-            if (usuarios == null || usuarios.Count == 0)
+            if (usuario == null || usuario.Count == 0)
             {
                 return NotFound("No users found.");
             }
 
-            return Ok(usuarios);
+            return Ok(usuario);
         }
 
         [HttpPost]
@@ -34,11 +34,11 @@ namespace Azure_Waters_backend.Controllers
             var buscarLogin = new Usuario();
             using (var _context = new AzureWatersContext())
             {
-                buscarLogin = await (from ua in _context.Usuarios
+                buscarLogin = await (from ua in _context.Usuario
                                      where ua.NombreUsuario == usuario && ua.Contrasenna == contrasenna
                                      select new Usuario
                                      {
-                                         UsuarioId = ua.UsuarioId,
+                                         Id = ua.Id,
                                          NombreUsuario = ua.NombreUsuario,
                                          Contrasenna = ua.Contrasenna
                                      }).FirstOrDefaultAsync();
@@ -46,7 +46,7 @@ namespace Azure_Waters_backend.Controllers
 
             if (buscarLogin == null)
             {
-                login.UsuarioId = null;
+                login.Id = null;
                 login.NombreUsuario = null;
             }
             else

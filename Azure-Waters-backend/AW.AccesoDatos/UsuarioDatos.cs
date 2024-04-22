@@ -1,5 +1,6 @@
 ﻿
 using AW.Entidades;
+using Azure_Waters_backend.Models;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -15,23 +16,23 @@ namespace AW.AccesoDatos
 
         public UsuarioDatos()
         {
-            conn = new SqlConnection(ConexionDatos.CONECTION_LAPTOP); 
+            conn = new SqlConnection(ConexionDatos.CONECTION_PC); //Cambiar la conexión a la base de datos respectiva para que funcione
         }
 
-        public List<Usuario> GetUsuarios()
+        public List<Usuario> GetUsuario()
         {
             List<Usuario> usuarios = new List<Usuario>();
 
-            SqlCommand cmd = new SqlCommand("SELECT UsuarioId, NombreUsuario, Contrasenna FROM Usuarios", conn);
+            SqlCommand cmd = new SqlCommand("SELECT id, nombre_usuario, contrasenna FROM Usuario", conn);
             conn.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 usuarios.Add(new Usuario()
                 {
-                    UsuarioId = Convert.ToInt32(reader["UsuarioId"]),
-                    NombreUsuario = reader["NombreUsuario"].ToString(),
-                    Contrasenna = reader["Contrasenna"].ToString()
+                    Id = Convert.ToInt32(reader["id"]),
+                    NombreUsuario = reader["nombre_usuario"].ToString(),
+                    Contrasenna = reader["contrasenna"].ToString()
                 });
             }
             return usuarios;

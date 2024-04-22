@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AW.Entidades;
+namespace Azure_Waters_backend.Models;
 
 public partial class Usuario
 {
-    public int? UsuarioId { get; set; }
+    public int? Id { get; set; }
 
-    public string NombreUsuario { get; set; } = null!;
+    public string? NombreUsuario { get; set; }
 
-    public string Contrasenna { get; set; } = null!;
+    public string? Contrasenna { get; set; }
 }
