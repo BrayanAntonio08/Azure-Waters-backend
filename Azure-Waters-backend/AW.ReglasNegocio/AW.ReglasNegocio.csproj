@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AW.AccesoDatos\AW.AccesoDatos.csproj" />
+    <ProjectReference Include="..\AW.EntidadesDTO\AW.EntidadesDTO.csproj" />
+    <ProjectReference Include="..\AW.Entidades\AW.Entidades.csproj" />
+  </ItemGroup>
+
+</Project>
