@@ -28,32 +28,17 @@ namespace Azure_Waters_backend.Controllers
 
         [HttpPost]
         [Route(nameof(buscarUsuario))]
-        public async Task<Usuario> buscarUsuario(string usuario, string contrasenna)
+        public IActionResult buscarUsuario(string usuario, string contrasenna)
         {
-            Usuario login = new Usuario();
-            var buscarLogin = new Usuario();
-            using (var _context = new AzureWatersContext())
+            UsuarioDatos usuarioDatos = new UsuarioDatos();
+            var usuarioEncontrado = usuarioDatos.BuscarUsuario(usuario, contrasenna);
+
+            if (usuarioEncontrado == null)
             {
-                buscarLogin = await (from ua in _context.Usuario
-                                     where ua.NombreUsuario == usuario && ua.Contrasenna == contrasenna
-                                     select new Usuario
-                                     {
-                                         Id = ua.Id,
-                                         NombreUsuario = ua.NombreUsuario,
-                                         Contrasenna = ua.Contrasenna
-                                     }).FirstOrDefaultAsync();
+                return Ok(new { error = "Usuario no encontrado o contraseña incorrecta." });
             }
 
-            if (buscarLogin == null)
-            {
-                login.Id = null;
-                login.NombreUsuario = null;
-            }
-            else
-            {
-                login = buscarLogin;
-            }
-            return login;
+            return Ok(usuarioEncontrado);
         }
     }
 

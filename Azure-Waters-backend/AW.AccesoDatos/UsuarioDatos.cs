@@ -37,5 +37,29 @@ namespace AW.AccesoDatos
             }
             return usuarios;
         }
+
+        public Usuario BuscarUsuario(string usuario, string contrasenna)
+        {
+            Usuario usuarioEncontrado = null;
+
+            SqlCommand cmd = new SqlCommand("SELECT id, nombre_usuario, contrasenna FROM Usuario WHERE nombre_usuario = @Usuario AND contrasenna = @Contrasenna", conn);
+            cmd.Parameters.AddWithValue("@Usuario", usuario);
+            cmd.Parameters.AddWithValue("@Contrasenna", contrasenna);
+
+            conn.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                usuarioEncontrado = new Usuario()
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    NombreUsuario = reader["nombre_usuario"].ToString(),
+                    Contrasenna = reader["contrasenna"].ToString()
+                };
+            }
+            conn.Close();
+
+            return usuarioEncontrado;
+        }
     }
 }
