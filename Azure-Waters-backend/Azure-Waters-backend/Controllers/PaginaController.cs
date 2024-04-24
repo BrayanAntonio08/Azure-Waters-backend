@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using AW.EntidadesDTO;
 
 namespace Azure_Waters_backend.Controllers
 {
@@ -9,7 +10,12 @@ namespace Azure_Waters_backend.Controllers
         [HttpGet]
         [Route("{nombre}")]
         public async Task<IActionResult> GetPagina(string nombre){
-            return Ok("Página "+nombre+" obtenida correctamente");
+            PaginaDTO pagina = new PaginaDTO(){
+                Id = 1,
+                Titulo = nombre,
+                Texto = "Esta es una prueba de <i>pagina</i> desde el <br> api para <b>"+nombre+"</b>"
+            };
+            return Ok(pagina);
         }
     }
 
