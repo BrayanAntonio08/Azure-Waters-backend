@@ -11,7 +11,7 @@ public partial class AzureWatersContext : DbContext
     public AzureWatersContext()
     {
         this.sqlConnString = ConexionDatos.CONECTION_PC;
-        this.sqlConnString = ConexionDatos.CONECTION_LAPTOP;
+        //this.sqlConnString = ConexionDatos.CONECTION_LAPTOP;
     }
 
     public AzureWatersContext(DbContextOptions<AzureWatersContext> options)
