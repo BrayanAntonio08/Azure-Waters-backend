@@ -16,7 +16,7 @@ namespace AW.AccesoDatos
 
         public UsuarioDatos()
         {
-            conn = new SqlConnection(ConexionDatos.CONECTION_PC); //Cambiar la conexión a la base de datos respectiva para que funcione
+            conn = new SqlConnection(ConexionDatos.ACTIVE_CONECTION); //Cambiar la conexión a la base de datos respectiva para que funcione
         }
 
         public List<Usuario> GetUsuario()

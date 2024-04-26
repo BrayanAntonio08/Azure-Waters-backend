@@ -10,7 +10,7 @@ public partial class AzureWatersContext : DbContext
     private string sqlConnString;
     public AzureWatersContext()
     {
-        this.sqlConnString = ConexionDatos.CONECTION_PC;
+        this.sqlConnString = ConexionDatos.ACTIVE_CONECTION;
         //this.sqlConnString = ConexionDatos.CONECTION_LAPTOP;
     }
 

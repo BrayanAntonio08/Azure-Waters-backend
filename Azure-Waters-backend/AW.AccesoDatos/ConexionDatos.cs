@@ -10,5 +10,8 @@ namespace AW.AccesoDatos
     {
         public static string CONECTION_LAPTOP = "Server=DESKTOP-FEUS1TM;Database=Azure_Waters;User Id=sa;Password=sa123456;TrustServerCertificate=true;";
         public static string CONECTION_PC = "Server=DESKTOP-N2FI4RE;Database=Azure_Waters;User Id=sa;Password=sa123456;TrustServerCertificate=true;";
+        public static string CONECTION_RAUL = "Server=localhost; Initial Catalog=Azure_Waters;Integrated Security=True;TrustServerCertificate=true;";
+
+        public static string ACTIVE_CONECTION = ConexionDatos.CONECTION_RAUL;
     }
 }
