@@ -15,6 +15,13 @@ namespace Azure_Waters_backend.Controllers
             PaginaDTO pagina = paginaRN.GetPagina(nombre);
             return pagina!=null? Ok(pagina) : NotFound();
         }
+
+        [HttpGet]
+        [Route("images/{nombrePagina}")]
+        public async Task<IActionResult> GetImagenes(string nombrePagina){
+            return Ok(new ImagenRN().GetImagenesPagina(nombrePagina));
+        }
+    
     }
 
 }
