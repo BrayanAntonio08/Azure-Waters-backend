@@ -14,6 +14,8 @@ public partial class Imagen
     public virtual ICollection<Anuncio> Anuncio { get; set; } = new List<Anuncio>();
 
     public virtual ICollection<Facilidad> Facilidad { get; set; } = new List<Facilidad>();
+    
+    public virtual ICollection<TipoHabitacion> TipoHabitacion { get; set; } = new List<TipoHabitacion>();
 
     public virtual ICollection<Pagina> Pagina { get; set; } = new List<Pagina>();
 }

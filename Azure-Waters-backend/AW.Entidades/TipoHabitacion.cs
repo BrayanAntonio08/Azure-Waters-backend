@@ -12,6 +12,10 @@ public partial class TipoHabitacion
     public string? Descripcion { get; set; }
 
     public decimal? Precio { get; set; }
+    
+    public int? ImagenId { get; set; }
+
+    public virtual Imagen? Imagen { get; set; }
 
     public virtual ICollection<Habitacion> Habitacion { get; set; } = new List<Habitacion>();
 

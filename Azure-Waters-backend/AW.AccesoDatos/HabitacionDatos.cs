@@ -17,7 +17,12 @@ namespace AW.AccesoDatos
 
         public List<TipoHabitacion> GetTiposHabitacion()
         {
-            return _context.TipoHabitacion.ToList();
+            List<TipoHabitacion> data = _context.TipoHabitacion.ToList();
+
+            foreach(TipoHabitacion aux in data){
+                aux.Imagen = _context.Imagen.Where(x => x.Id == aux.ImagenId).FirstOrDefault();
+            }
+            return data;
         }
 
         public List<Habitacion> GetHabitaciones()
