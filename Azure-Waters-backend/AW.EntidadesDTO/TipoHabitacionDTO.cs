@@ -13,7 +13,7 @@ namespace AW.EntidadesDTO
         public string? Name { get; set; }
         public decimal? Price { get; set; }
         public string? Description { get; set; }
-
+        public ImagenDTO? Image {get; set;}
         public static TipoHabitacionDTO mapping(TipoHabitacion value)
         {
             return new TipoHabitacionDTO
@@ -21,7 +21,8 @@ namespace AW.EntidadesDTO
                 Id = value.IdTipo,
                 Name = value.Nombre,
                 Price = value.Precio,
-                Description = value.Descripcion
+                Description = value.Descripcion,
+                Image = value.Imagen != null? ImagenDTO.mapping(value.Imagen): null
             };
         }
     }

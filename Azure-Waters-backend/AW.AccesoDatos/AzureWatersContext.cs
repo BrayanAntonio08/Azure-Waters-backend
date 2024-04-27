@@ -11,7 +11,6 @@ public partial class AzureWatersContext : DbContext
     public AzureWatersContext()
     {
         this.sqlConnString = ConexionDatos.ACTIVE_CONECTION;
-        //this.sqlConnString = ConexionDatos.CONECTION_LAPTOP;
     }
 
     public AzureWatersContext(DbContextOptions<AzureWatersContext> options)
@@ -229,6 +228,7 @@ public partial class AzureWatersContext : DbContext
             entity.HasKey(e => e.IdTipo).HasName("PK__Id__TipoHabitacion");
 
             entity.Property(e => e.IdTipo).HasColumnName("id_tipo");
+            entity.Property(e => e.ImagenId).HasColumnName("id_imagen");
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(2000)
                 .IsUnicode(false)
@@ -240,6 +240,10 @@ public partial class AzureWatersContext : DbContext
             entity.Property(e => e.Precio)
                 .HasColumnType("numeric(12, 2)")
                 .HasColumnName("precio");
+            
+            entity.HasOne(d => d.Imagen).WithMany(p => p.TipoHabitacion)
+                .HasForeignKey(d => d.ImagenId)
+                .HasConstraintName("FK__Imagen_Habitacion");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
