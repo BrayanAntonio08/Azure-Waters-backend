@@ -1,7 +1,8 @@
 ﻿using AW.AccesoDatos;
+using AW.EntidadesDTO;
+using AW.ReglasNegocio;
 using Azure_Waters_backend.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,17 +12,17 @@ namespace Azure_Waters_backend.Controllers
     [Route("api/[controller]")]
     public class TemporadaController : ControllerBase
     {
-        private readonly TemporadaDatos temporadaDatos;
+        private readonly TemporadaRN temporadaRN;
 
         public TemporadaController()
         {
-            temporadaDatos = new TemporadaDatos(); 
+            temporadaRN = new TemporadaRN();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetTemporadas()
         {
-            List<Temporada> temporadas = await temporadaDatos.GetTemporadas();
+            List<TemporadaDTO> temporadas = await temporadaRN.GetTemporadas();
 
             if (temporadas == null || temporadas.Count == 0)
             {
@@ -34,7 +35,7 @@ namespace Azure_Waters_backend.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTemporada(int id)
         {
-            var temporada = await temporadaDatos.GetTemporadaAsync(id);
+            var temporada = await temporadaRN.GetTemporada(id);
 
             if (temporada == null)
             {
@@ -45,22 +46,22 @@ namespace Azure_Waters_backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostTemporada(Temporada temporada)
+        public async Task<IActionResult> PostTemporada(TemporadaDTO temporadaDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await temporadaDatos.AddTemporadaAsync(temporada);
+            await temporadaRN.AddTemporada(temporadaDTO);
 
-            return CreatedAtAction(nameof(GetTemporada), new { id = temporada.IdTemporada }, temporada);
+            return CreatedAtAction(nameof(GetTemporada), new { id = temporadaDTO.IdTemporada }, temporadaDTO);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> ActualizarTemporada(int id, Temporada temporada)
+        public async Task<IActionResult> ActualizarTemporada(int id, TemporadaDTO temporadaDTO)
         {
-            if (id != temporada.IdTemporada)
+            if (id != temporadaDTO.IdTemporada)
             {
                 return BadRequest("ID mismatch.");
             }
@@ -70,7 +71,7 @@ namespace Azure_Waters_backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var updated = await temporadaDatos.ActualizarTemporada(id, temporada);
+            var updated = await temporadaRN.ActualizarTemporada(id, temporadaDTO);
 
             if (!updated)
             {
@@ -83,7 +84,7 @@ namespace Azure_Waters_backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> EliminarTemporada(int id)
         {
-            var deleted = await temporadaDatos.EliminarTemporada(id);
+            var deleted = await temporadaRN.EliminarTemporada(id);
 
             if (!deleted)
             {
