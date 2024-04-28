@@ -1,23 +1,25 @@
 ﻿using AW.AccesoDatos;
 using AW.EntidadDTO;
-using AW.EntidadesDTO;
 using Azure_Waters_backend.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AW.ReglasNegocio
 {
     public class FacilidadRN
     {
-        public FacilidadDTO GetFacilidad()
+        private readonly FacilidadDatos facilidadDatos;
+
+        public FacilidadRN()
+        {
+            facilidadDatos = new FacilidadDatos();
+        }
+
+        public List<FacilidadDTO> GetFacilidades()
         {
             FacilidadDatos facilidadDatos = new FacilidadDatos();
-            Facilidad facilidad = facilidadDatos.GetFacilidad();
-
-            return facilidad != null ? FacilidadDTO.mapping(facilidad) : null;
+            List<Facilidad> facilidades = facilidadDatos.GetFacilidades();
+            return facilidades.Select(f => FacilidadDTO.mapping(f)).ToList();
         }
     }
 }
