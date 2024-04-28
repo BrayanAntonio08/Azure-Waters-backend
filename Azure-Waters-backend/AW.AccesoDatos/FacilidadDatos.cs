@@ -1,10 +1,7 @@
 ﻿using Azure_Waters_backend.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AW.AccesoDatos
 {
@@ -17,9 +14,9 @@ namespace AW.AccesoDatos
             _context = new AzureWatersContext();
         }
 
-        public Facilidad GetFacilidad()
+        public List<Facilidad> GetFacilidades()
         {
-            return _context.Facilidad.FirstOrDefault();
+            return _context.Facilidad.Include(f => f.Imagen).ToList();
         }
     }
 }

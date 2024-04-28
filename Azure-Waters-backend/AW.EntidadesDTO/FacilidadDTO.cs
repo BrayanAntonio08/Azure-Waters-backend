@@ -13,15 +13,15 @@ namespace AW.EntidadDTO
         public int Id { get; set; }
         public string Texto { get; set; }
 
-        //public ImagenDTO Imagen { get; set; }
+        public ImagenDTO Imagen { get; set; }
 
         public static FacilidadDTO mapping(Facilidad facilidad)
         {
             return new FacilidadDTO
             {
                 Id = facilidad.FacilidadId,
-                Texto = facilidad.Texto
-                //Imagen
+                Texto = facilidad.Texto,
+                Imagen = facilidad.Imagen != null ? ImagenDTO.mapping(facilidad.Imagen) : null
             };
         }
     }
