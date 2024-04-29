@@ -29,5 +29,18 @@ namespace AW.AccesoDatos
         {
             return _context.Habitacion.ToList();
         }
+
+        public void UpdateTipoHabitacion(TipoHabitacion tipoHabitacion)
+        {
+            _context.TipoHabitacion.Update(tipoHabitacion);
+            _context.SaveChanges();
+        }
+
+        public TipoHabitacion GetTipoHabitacionById(int id)
+        {
+            return _context.TipoHabitacion.FirstOrDefault(th => th.IdTipo == id);
+        }
+
+
     }
 }

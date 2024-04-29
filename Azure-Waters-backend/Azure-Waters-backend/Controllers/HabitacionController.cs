@@ -1,4 +1,5 @@
-﻿using AW.ReglasNegocio;
+﻿using AW.EntidadesDTO;
+using AW.ReglasNegocio;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,5 +24,21 @@ namespace Azure_Waters_backend.Controllers
             HabitacionRN rn = new HabitacionRN();
             return Ok(rn.GetHabitaciones());
         }
+
+        [HttpPut]
+        [Route("tipos/{id}")]
+        public async Task<IActionResult> UpdateTipoHabitacion(int id, [FromBody] TipoHabitacionDTO tipoHabitacionDTO)
+        {
+            if (id != tipoHabitacionDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            HabitacionRN rn = new HabitacionRN();
+            rn.UpdateTipoHabitacion(tipoHabitacionDTO);
+
+            return NoContent();
+        }
+
     }
 }
