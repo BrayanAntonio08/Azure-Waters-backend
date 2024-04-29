@@ -34,5 +34,19 @@ namespace AW.ReglasNegocio
             }
             return response;
         }
+
+        public void UpdateTipoHabitacion(TipoHabitacionDTO tipoHabitacionDTO)
+        {
+            HabitacionDatos datos = new HabitacionDatos();
+            TipoHabitacion tipoHabitacion = datos.GetTipoHabitacionById(tipoHabitacionDTO.Id);
+            if (tipoHabitacion != null)
+            {
+                tipoHabitacion.Nombre = tipoHabitacionDTO.Name;
+                tipoHabitacion.Precio = tipoHabitacionDTO.Price;
+                tipoHabitacion.Descripcion = tipoHabitacionDTO.Description;
+                datos.UpdateTipoHabitacion(tipoHabitacion);
+            }
+        }
+
     }
 }
