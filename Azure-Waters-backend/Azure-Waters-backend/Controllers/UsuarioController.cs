@@ -10,11 +10,11 @@ namespace Azure_Waters_backend.Controllers
     [Route("api/[controller]")]
     public class UsuariosController : ControllerBase
     {
-        //private readonly AzureWatersContext _context = new AzureWatersContext();
+        private readonly AzureWatersContext _context = new AzureWatersContext();
         private UsuarioDatos usuarioDatos = new UsuarioDatos();
 
         [HttpGet]
-        public async Task<IActionResult> GetUsuario()
+        public IActionResult GetUsuario()
         {
             List<Usuario> usuario = usuarioDatos.GetUsuario();
 
