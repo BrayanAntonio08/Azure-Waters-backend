@@ -38,5 +38,21 @@ namespace Azure_Waters_backend.Controllers
 
             return Ok(habitacionesDisponibles);
         }
+
+        [HttpPut]
+        [Route("tipos/{id}")]
+        public async Task<IActionResult> UpdateTipoHabitacion(int id, [FromBody] TipoHabitacionDTO tipoHabitacionDTO)
+        {
+            if (id != tipoHabitacionDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            HabitacionRN rn = new HabitacionRN();
+            rn.UpdateTipoHabitacion(tipoHabitacionDTO);
+
+            return NoContent();
+        }
+
     }
 }

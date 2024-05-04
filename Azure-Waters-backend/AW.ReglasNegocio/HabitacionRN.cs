@@ -36,6 +36,7 @@ namespace AW.ReglasNegocio
             return response;
         }
 
+
         public async Task<List<Habitacion>> ObtenerHabitacionesDisponibles(DateTime fechaInicio, DateTime fechaFinal, int? idTipoHabitacion)
         {
             HabitacionDatos datos = new HabitacionDatos();
@@ -61,5 +62,19 @@ namespace AW.ReglasNegocio
 
             return habitacionesDisponibles;
         }
+
+        public void UpdateTipoHabitacion(TipoHabitacionDTO tipoHabitacionDTO)
+        {
+            HabitacionDatos datos = new HabitacionDatos();
+            TipoHabitacion tipoHabitacion = datos.GetTipoHabitacionById(tipoHabitacionDTO.Id);
+            if (tipoHabitacion != null)
+            {
+                tipoHabitacion.Nombre = tipoHabitacionDTO.Name;
+                tipoHabitacion.Precio = tipoHabitacionDTO.Price;
+                tipoHabitacion.Descripcion = tipoHabitacionDTO.Description;
+                datos.UpdateTipoHabitacion(tipoHabitacion);
+            }
+        }
+
     }
 }

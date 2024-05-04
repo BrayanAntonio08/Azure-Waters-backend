@@ -30,6 +30,7 @@ namespace AW.AccesoDatos
             return _context.Habitacion.ToList();
         }
 
+
         public List<Habitacion> GetAllHabitacionesActivas()
         {
             return _context.Habitacion.Where(h => h.Activa == true).ToList();
@@ -41,5 +42,17 @@ namespace AW.AccesoDatos
                 .Where(r => r.IdHabitacion == idHabitacion && r.FechaInicio >= fechaInicio && r.FechaFin <= fechaFinal)
                 .ToList();
         }
+
+        public void UpdateTipoHabitacion(TipoHabitacion tipoHabitacion)
+        {
+            _context.TipoHabitacion.Update(tipoHabitacion);
+            _context.SaveChanges();
+        }
+
+        public TipoHabitacion GetTipoHabitacionById(int id)
+        {
+            return _context.TipoHabitacion.FirstOrDefault(th => th.IdTipo == id);
+        }
+
     }
 }
