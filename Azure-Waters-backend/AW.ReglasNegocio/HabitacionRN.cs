@@ -76,5 +76,25 @@ namespace AW.ReglasNegocio
             }
         }
 
+        public HabitacionRevisionDTO? RevisarHabitacion(ReservaDTO consulta)
+        {
+            HabitacionDatos habitacionDatos = new HabitacionDatos();
+            Habitacion? resultado = habitacionDatos.RevisarHabitacion(consulta.Arriving, consulta.Departing, consulta.Room_type_id);
+            if(resultado != null)
+            {
+                TipoHabitacion tipo = habitacionDatos.GetTiposHabitacion().FirstOrDefault(t => t.IdTipo == resultado.IdTipo);
+
+                HabitacionRevisionDTO habitacionLibre = HabitacionRevisionDTO.mapping(resultado, tipo);
+                
+                return habitacionLibre;
+            }
+            return null;
+        }
+
+        public void LiberarHabitacion(int idRoom)
+        {
+            HabitacionDatos data = new HabitacionDatos();
+            data.LiberarHabitacion(idRoom);
+        }
     }
 }

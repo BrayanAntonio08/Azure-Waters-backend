@@ -22,5 +22,16 @@ namespace AW.AccesoDatos
                 ).FirstOrDefault() != null
                 ).ToList();
         }
+
+        public string GetImagenHabitacion(int? roomType)
+        {
+            TipoHabitacion? temp = _context.TipoHabitacion.FirstOrDefault(rt => rt.IdTipo ==  roomType);
+            if (temp != null)
+            {
+                
+                return _context.Imagen.FirstOrDefault(i => i.Id == temp.ImagenId).Url;
+            }
+            return "";
+        }
     }
 }

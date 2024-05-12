@@ -39,6 +39,34 @@ namespace Azure_Waters_backend.Controllers
             return Ok(habitacionesDisponibles);
         }
 
+        [HttpPost]
+        [Route("revisar")]
+        public async Task<IActionResult> RevisarHabitacion([FromBody] ReservaDTO reserva)
+        {
+            if (reserva == null)
+            {
+                return BadRequest("No se han enviado los datos solicitados");
+            }
+            HabitacionRevisionDTO? resultado = new HabitacionRN().RevisarHabitacion(reserva);
+            if(resultado == null)
+            {
+                //Acá se deben analizar las opciones
+                return Ok(new { success = false, message = "No se han encontrado habitaciones" });
+            }
+            reserva.Room = resultado;
+            return Ok(new { success = true, data = reserva });
+        }
+
+        [HttpDelete]
+        [Route("liberar/{roomId}")]
+        public async Task<IActionResult> LiberarRevisionHabitacion(int roomId)
+        {
+            HabitacionRN rn = new HabitacionRN();
+            rn.LiberarHabitacion(roomId);
+
+            return Ok();
+        }
+
         [HttpPut]
         [Route("tipos/{id}")]
         public async Task<IActionResult> UpdateTipoHabitacion(int id, [FromBody] TipoHabitacionDTO tipoHabitacionDTO)

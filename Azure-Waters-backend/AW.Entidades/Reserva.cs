@@ -20,4 +20,5 @@ public partial class Reserva
     public virtual Cliente? IdClienteNavigation { get; set; }
 
     public virtual Habitacion? IdHabitacionNavigation { get; set; }
+
 }
