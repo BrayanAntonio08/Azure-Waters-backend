@@ -72,6 +72,13 @@ namespace AW.ReglasNegocio
                 tipoHabitacion.Nombre = tipoHabitacionDTO.Name;
                 tipoHabitacion.Precio = tipoHabitacionDTO.Price;
                 tipoHabitacion.Descripcion = tipoHabitacionDTO.Description;
+                tipoHabitacion.ImagenId = tipoHabitacionDTO.ImagenId;
+                //tipoHabitacion.Imagen = tipoHabitacionDTO.Image != null ? new Imagen
+                //{
+                //    Id = tipoHabitacionDTO.Image.Id,
+                //    Alt = tipoHabitacionDTO.Image.Alt,
+                //    Url = tipoHabitacionDTO.Image.Url
+                //} : null;
                 datos.UpdateTipoHabitacion(tipoHabitacion);
             }
         }
