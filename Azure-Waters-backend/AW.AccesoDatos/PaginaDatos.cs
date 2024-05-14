@@ -18,5 +18,10 @@ namespace AW.AccesoDatos
         {
            return _context.Pagina.Where(x => x.Nombre == titulo).FirstOrDefault();
         }
+
+        public void Update(Pagina pagina) { 
+            _context.Update(pagina);
+            _context.SaveChanges();
+        }
     }
 }

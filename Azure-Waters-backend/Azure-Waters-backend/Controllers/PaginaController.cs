@@ -21,7 +21,14 @@ namespace Azure_Waters_backend.Controllers
         public async Task<IActionResult> GetImagenes(string nombrePagina){
             return Ok(new ImagenRN().GetImagenesPagina(nombrePagina));
         }
-    
+
+        [HttpPut]
+        public async Task<IActionResult> ModificarPagina([FromBody] PaginaDTO pagina)
+        {
+            PaginaRN rn = new PaginaRN();
+            rn.UpdatePagina(pagina);    
+            return Ok(pagina);
+        }
     }
 
 }

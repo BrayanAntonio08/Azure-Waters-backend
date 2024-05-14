@@ -11,12 +11,20 @@ namespace AW.ReglasNegocio
 {
     public class PaginaRN
     {
-        public PaginaDTO GetPagina(string titulo)
+        public PaginaDTO? GetPagina(string titulo)
         {
             PaginaDatos paginaDatos = new PaginaDatos();
             Pagina pagina = paginaDatos.GetPagina(titulo);
 
             return pagina != null ? PaginaDTO.mapping(pagina) : null;
+        }
+
+        public void UpdatePagina(PaginaDTO dto)
+        {
+            // Map the data to a actual page to pass it to the data manager
+            Pagina pagina = PaginaDTO.mapping(dto);
+            PaginaDatos datos = new PaginaDatos();
+            datos.Update(pagina);
         }
     }
 }
