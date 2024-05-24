@@ -28,6 +28,7 @@ namespace AW.EntidadesDTO
                 PaginaId = pagina.Id,
                 Nombre = pagina.Titulo,
                 Texto = pagina.Texto,
+                Imagen = ImagenDTO.mapping(pagina.Imagenes).ToList()
             };
         }
     }

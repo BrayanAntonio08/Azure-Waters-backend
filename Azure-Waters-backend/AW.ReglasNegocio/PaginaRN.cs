@@ -21,9 +21,9 @@ namespace AW.ReglasNegocio
 
         public void UpdatePagina(PaginaDTO dto)
         {
-            // Map the data to a actual page to pass it to the data manager
-            Pagina pagina = PaginaDTO.mapping(dto);
             PaginaDatos datos = new PaginaDatos();
+            Pagina pagina = PaginaDTO.mapping(dto);  
+
             datos.Update(pagina);
         }
     }

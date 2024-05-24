@@ -1,4 +1,6 @@
-﻿using Azure_Waters_backend.Models;
+﻿using Azure;
+using Azure_Waters_backend.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +18,19 @@ namespace AW.AccesoDatos
         }
         public Pagina GetPagina(string titulo)
         {
-           return _context.Pagina.Where(x => x.Nombre == titulo).FirstOrDefault();
+           return _context.Pagina.Where(x => x.Nombre == titulo).Include(p => p.Imagen).FirstOrDefault();
         }
 
-        public void Update(Pagina pagina) { 
-            _context.Update(pagina);
+
+        public void Update(Pagina pagina) {
+            _context.Database.ExecuteSqlRaw("DELETE FROM [dbo].[Imagen_Pagina] WHERE pagina_id = {0}", pagina.PaginaId);
+
+            foreach (Imagen img in pagina.Imagen) { 
+                if(img.Id == 0) { 
+                    _context.Imagen.Add(img);
+                }
+            }
+            _context.Entry(pagina).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }
