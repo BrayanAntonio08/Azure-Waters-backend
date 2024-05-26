@@ -24,5 +24,16 @@ namespace AW.EntidadDTO
                 Imagen = facilidad.Imagen != null ? ImagenDTO.mapping(facilidad.Imagen) : null
             };
         }
+
+        public static Facilidad mapping(FacilidadDTO dto)
+        {
+            return new Facilidad()
+            {
+                FacilidadId = dto.Id,
+                Texto = dto.Texto,
+                ImagenId = dto.Imagen.Id,
+                Imagen = ImagenDTO.mapping(dto.Imagen)
+            };
+        }
     }
 }

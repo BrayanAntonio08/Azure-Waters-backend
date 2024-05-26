@@ -18,5 +18,12 @@ namespace AW.AccesoDatos
         {
             return _context.Facilidad.Include(f => f.Imagen).ToList();
         }
+
+        public Facilidad UpdateFacilidad(Facilidad facilidad)
+        {
+            _context.Entry(facilidad).State = EntityState.Modified;
+            _context.SaveChanges();
+            return _context.Facilidad.Include(f => f.Imagen).FirstOrDefault(f => f.FacilidadId == facilidad.FacilidadId);
+        }
     }
 }

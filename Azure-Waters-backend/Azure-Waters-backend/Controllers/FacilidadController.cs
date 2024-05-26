@@ -23,5 +23,15 @@ namespace Azure_Waters_backend.Controllers
             List<FacilidadDTO> facilidades = facilidadRN.GetFacilidades();
             return facilidades != null ? Ok(facilidades) : NotFound();
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateFacilidad([FromBody] FacilidadDTO facilidad)
+        {
+            FacilidadRN facilidadRN = new FacilidadRN();
+            FacilidadDTO result = facilidadRN.UpdateFacilidad(facilidad);
+            if(result == null)
+                return NotFound();
+            return Ok(result);
+        }
     }
 }

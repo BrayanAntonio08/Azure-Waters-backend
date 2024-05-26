@@ -21,5 +21,12 @@ namespace AW.ReglasNegocio
             List<Facilidad> facilidades = facilidadDatos.GetFacilidades();
             return facilidades.Select(f => FacilidadDTO.mapping(f)).ToList();
         }
+
+        public FacilidadDTO UpdateFacilidad(FacilidadDTO facilidad)
+        {
+            FacilidadDatos facilidadDatos = new FacilidadDatos();
+            Facilidad result = facilidadDatos.UpdateFacilidad(FacilidadDTO.mapping(facilidad));
+            return result != null? FacilidadDTO.mapping(result): null;
+        }
     }
 }
