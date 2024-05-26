@@ -25,12 +25,14 @@ namespace AW.AccesoDatos
         public void Update(Pagina pagina) {
             _context.Database.ExecuteSqlRaw("DELETE FROM [dbo].[Imagen_Pagina] WHERE pagina_id = {0}", pagina.PaginaId);
 
-            foreach (Imagen img in pagina.Imagen) { 
-                if(img.Id == 0) { 
+            foreach (Imagen img in pagina.Imagen) {
+                if (img.Id == 0) {
                     _context.Imagen.Add(img);
                 }
+                img.Pagina.Add(pagina);
             }
-            _context.Entry(pagina).State = EntityState.Modified;
+            _context.Update(pagina);
+           // _context.Entry(pagina).State = EntityState.Modified;
             _context.SaveChanges();
         }
     }
