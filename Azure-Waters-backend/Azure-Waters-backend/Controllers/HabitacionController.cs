@@ -1,5 +1,6 @@
 ﻿using AW.EntidadesDTO;
 using AW.ReglasNegocio;
+using Azure_Waters_backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -80,6 +81,59 @@ namespace Azure_Waters_backend.Controllers
             rn.UpdateTipoHabitacion(tipoHabitacionDTO);
 
             return NoContent();
+        }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetHabitacionById(int id)
+        {
+            HabitacionRN rn = new HabitacionRN();
+            Habitacion? habitacion = rn.GetHabitacionById(id);
+            if (habitacion == null)
+            {
+                return NotFound();
+            }
+            return Ok(habitacion);
+        }
+
+        [HttpDelete]
+        [Route("delete/{roomId}")]
+        public async Task<IActionResult> DeleteHabitacion(int roomId)
+        {
+            HabitacionRN rn = new HabitacionRN();
+            rn.DeleteHabitacion(roomId);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> CreateHabitacion([FromBody] HabitacionDTO habitacionDTO)
+        {
+            HabitacionRN rn = new HabitacionRN();
+            rn.CreateHabitacion(habitacionDTO);
+
+            return Ok(new { success = true, message = "Habitación creada exitosamente" });
+        }
+
+        [HttpPut]
+        [Route("update/{id}")]
+        public async Task<IActionResult> UpdateHabitacion(int id, [FromBody] HabitacionDTO habitacionDTO)
+        {
+            if (id != habitacionDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            HabitacionRN rn = new HabitacionRN();
+            try
+            {
+                rn.UpdateHabitacion(id, habitacionDTO);
+                return Ok(new { success = true, message = "Habitación actualizada exitosamente" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
         }
 
     }
