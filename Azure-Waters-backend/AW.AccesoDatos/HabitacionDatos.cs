@@ -93,5 +93,28 @@ namespace AW.AccesoDatos
             return _context.Habitacion.Find(idHabitacion);
         }
 
+        public Habitacion GetHabitacionById(int id)
+        {
+            return _context.Habitacion.FirstOrDefault(h => h.IdHabitacion == id);
+        }
+
+        public void DeleteHabitacion(Habitacion room)
+        {
+            _context.Habitacion.Remove(room);
+            _context.SaveChanges();
+        }
+
+        public void CreateHabitacion(Habitacion habitacion)
+        {
+            _context.Habitacion.Add(habitacion);
+            _context.SaveChanges();
+        }
+
+        public void UpdateHabitacion(Habitacion habitacion)
+        {
+            _context.Habitacion.Update(habitacion);
+            _context.SaveChanges();
+        }
+
     }
 }

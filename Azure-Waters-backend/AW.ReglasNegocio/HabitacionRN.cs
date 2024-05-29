@@ -104,6 +104,57 @@ namespace AW.ReglasNegocio
             data.LiberarHabitacion(idRoom);
         }
 
+        public Habitacion? GetHabitacionById(int id)
+        {
+            HabitacionDatos datos = new HabitacionDatos();
+            return datos.GetHabitacionById(id);
+        }
+
+        public void DeleteHabitacion(int id)
+        {
+            HabitacionDatos datos = new HabitacionDatos();
+            Habitacion? room = datos.GetHabitacionById(id);
+            if (room != null)
+            {
+                datos.DeleteHabitacion(room);
+            }
+        }
+
+        public void CreateHabitacion(HabitacionDTO habitacionDTO)
+        {
+            HabitacionDatos datos = new HabitacionDatos();
+
+            Habitacion habitacion = new Habitacion
+            {
+                Numero = habitacionDTO.Number,
+                IdTipo = habitacionDTO.Type_id,
+                Activa = habitacionDTO.Active,
+                Reservada = habitacionDTO.Reserved,
+                Revision = habitacionDTO.Checking
+            };
+
+            datos.CreateHabitacion(habitacion);
+        }
+
+        public void UpdateHabitacion(int id, HabitacionDTO habitacionDTO)
+        {
+            HabitacionDatos datos = new HabitacionDatos();
+
+            Habitacion habitacionExistente = datos.GetHabitacionById(id);
+            if (habitacionExistente == null)
+            {
+                throw new Exception("La habitación no existe");
+            }
+
+            habitacionExistente.Numero = habitacionDTO.Number;
+            habitacionExistente.IdTipo = habitacionDTO.Type_id;
+            habitacionExistente.Activa = habitacionDTO.Active;
+            habitacionExistente.Reservada = habitacionDTO.Reserved;
+            habitacionExistente.Revision = habitacionDTO.Checking;
+
+            datos.UpdateHabitacion(habitacionExistente);
+        }
+
         public HabitacionDTO? MarcarHabitacionActiva(HabitacionDTO dto)
         {
             HabitacionDatos data = new HabitacionDatos();
