@@ -82,5 +82,14 @@ namespace Azure_Waters_backend.Controllers
             return NoContent();
         }
 
+        [HttpPut]
+        [Route("activa")]
+        public async Task<IActionResult> MarcarHabitacionActiva([FromBody] HabitacionDTO habitacionDTO)
+        {
+            HabitacionRN rn = new HabitacionRN();
+            HabitacionDTO result = rn.MarcarHabitacionActiva(habitacionDTO);
+            return Ok(result);
+        }
+
     }
 }

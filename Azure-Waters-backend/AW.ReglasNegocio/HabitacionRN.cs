@@ -103,5 +103,17 @@ namespace AW.ReglasNegocio
             HabitacionDatos data = new HabitacionDatos();
             data.LiberarHabitacion(idRoom);
         }
+
+        public HabitacionDTO? MarcarHabitacionActiva(HabitacionDTO dto)
+        {
+            HabitacionDatos data = new HabitacionDatos();
+            bool activa = dto.Active != null? (bool)dto.Active: false;
+            Habitacion? result = data.MarcarHabitacionActiva(dto.Id, activa);
+            if(result != null)
+            {
+                return HabitacionDTO.mapping(result);
+            }
+            return null;
+        }
     }
 }

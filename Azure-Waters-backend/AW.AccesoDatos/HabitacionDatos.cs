@@ -1,4 +1,5 @@
 ﻿using Azure_Waters_backend.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -74,12 +75,22 @@ namespace AW.AccesoDatos
         
         public void LiberarHabitacion(int id)
         {
-            Habitacion? room = _context.Habitacion.FirstOrDefault(h => h.IdTipo == id);
-            if(room != null)
-            {
-                room.Revision = false;
-                _context.SaveChanges();
-            }
+            _context.Database.ExecuteSqlRaw(@"
+                UPDATE [dbo].[Habitacion]  
+                SET [revision] = 0
+                WHERE [id_habitacion] = {0}", id);
+            _context.SaveChanges();
+        }
+
+        public Habitacion? MarcarHabitacionActiva(int idHabitacion, bool activa)
+        {
+            _context.Database.ExecuteSqlRaw(@"
+                UPDATE [dbo].[Habitacion]  
+                SET [activa] = {1}
+                WHERE [id_habitacion] = {0}",  idHabitacion, activa);
+            _context.SaveChanges();
+
+            return _context.Habitacion.Find(idHabitacion);
         }
 
     }
