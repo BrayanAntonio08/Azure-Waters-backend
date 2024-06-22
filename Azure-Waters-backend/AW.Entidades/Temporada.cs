@@ -1,19 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Azure_Waters_backend.Models;
 
-public partial class Temporada
+[Table("Temporada")]
+public class Temporada
 {
-    public int IdTemporada { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
 
-    public DateTime? FechaInicio { get; set; }
+    [Column("fecha_inicio")]
+    [Required]
+    public DateTime FechaInicio { get; set; }
 
-    public DateTime? FechaFin { get; set; }
+    [Column("fecha_fin")]
+    [Required]
+    public DateTime FechaFin { get; set; }
 
-    public decimal? Descuento { get; set; }
-
-    public int IdTipo { get; set; }
-
-    public virtual TipoHabitacion IdTipoNavigation { get; set; } = null!;
+    [Column("incremento")]
+    [Required]
+    [Range(0, 99.99)]
+    public decimal Incremento { get; set; }
 }

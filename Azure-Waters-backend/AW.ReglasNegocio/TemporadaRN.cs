@@ -34,31 +34,26 @@ namespace AW.ReglasNegocio
             return temporada != null ? TemporadaDTO.mapping(temporada) : null;
         }
 
-        public async Task AddTemporada(TemporadaDTO temporadaDTO)
+        public async Task<TemporadaDTO> AddTemporada(TemporadaDTO temporadaDTO)
         {
-            Temporada temporada = new Temporada
-            {
-                FechaInicio = temporadaDTO.FechaInicio,
-                FechaFin = temporadaDTO.FechaFin,
-                Descuento = temporadaDTO.Descuento,
-                IdTipo = temporadaDTO.IdTipo
-            };
+            Temporada temporada = TemporadaDTO.mapping(temporadaDTO);
 
-            await temporadaDatos.AddTemporadaAsync(temporada);
+            Temporada result = await temporadaDatos.AddTemporadaAsync(temporada);
+            return TemporadaDTO.mapping(result);
         }
 
-        public async Task<bool> ActualizarTemporada(int id, TemporadaDTO temporadaDTO)
+        public async Task<bool> ActualizarTemporada(TemporadaDTO temporadaDTO)
         {
-            Temporada temporada = new Temporada
-            {
-                IdTemporada = id,
-                FechaInicio = temporadaDTO.FechaInicio,
-                FechaFin = temporadaDTO.FechaFin,
-                Descuento = temporadaDTO.Descuento,
-                IdTipo = temporadaDTO.IdTipo
-            };
+            Temporada temporada = TemporadaDTO.mapping(temporadaDTO);
 
-            return await temporadaDatos.ActualizarTemporada(id, temporada);
+            return await temporadaDatos.ActualizarTemporada(temporada);
+        }
+
+        public async Task<List<TemporadaDTO>> ActualizarGeneral(List<TemporadaDTO> temporadaDTO)
+        {
+            List<Temporada> temporada = TemporadaDTO.mapping(temporadaDTO).ToList();
+
+            return TemporadaDTO.mapping(await temporadaDatos.ActualizarGeneral(temporada)).ToList();
         }
 
         public async Task<bool> EliminarTemporada(int id)

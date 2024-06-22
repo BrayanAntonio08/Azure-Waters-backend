@@ -25,19 +25,32 @@ namespace AW.AccesoDatos
             return await _context.Temporada.FindAsync(id);
         }
 
-        public async Task AddTemporadaAsync(Temporada temporada)
+        public async Task<Temporada> AddTemporadaAsync(Temporada temporada)
         {
             _context.Temporada.Add(temporada);
             await _context.SaveChangesAsync();
+            return temporada;
+        }
+        public async Task<List<Temporada>> ActualizarGeneral (List<Temporada> temporadas)
+        {
+            foreach(var temporada in temporadas)
+            {
+                if(temporada.Id == 0)
+                {
+                    _context.Temporada.Add(temporada);
+                }
+                else
+                {
+                    _context.Entry(temporada).State = EntityState.Modified;
+                }
+            }
+            await _context.SaveChangesAsync();
+            return temporadas;
         }
 
-        public async Task<bool> ActualizarTemporada(int id, Temporada temporada)
+        public async Task<bool> ActualizarTemporada(Temporada temporada)
         {
-            if (id != temporada.IdTemporada)
-            {
-                return false;
-            }
-
+            
             _context.Entry(temporada).State = EntityState.Modified;
 
             try
@@ -46,7 +59,7 @@ namespace AW.AccesoDatos
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TemporadaExists(id))
+                if (!TemporadaExists(temporada.Id))
                 {
                     return false;
                 }
@@ -75,7 +88,7 @@ namespace AW.AccesoDatos
 
         private bool TemporadaExists(int id)
         {
-            return _context.Temporada.Any(e => e.IdTemporada == id);
+            return _context.Temporada.Any(e => e.Id == id);
         }
     }
 }

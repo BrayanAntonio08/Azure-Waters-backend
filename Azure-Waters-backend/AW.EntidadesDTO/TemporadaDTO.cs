@@ -1,6 +1,7 @@
 ﻿using Azure_Waters_backend.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,26 +10,53 @@ namespace AW.EntidadesDTO
 {
     public class TemporadaDTO
     {
-        public int IdTemporada { get; set; }
+        public int Id { get; set; }
 
-        public DateTime? FechaInicio { get; set; }
+        public DateOnly FechaInicio { get; set; }
 
-        public DateTime? FechaFin { get; set; }
+        public DateOnly FechaFin { get; set; }
 
-        public decimal? Descuento { get; set; }
-
-        public int IdTipo { get; set; }
+        public decimal Incremento { get; set; }
+        
+        private static DateTime convert(DateOnly date)
+        {
+            return new DateTime(date.Year, date.Month, date.Day);
+        }
+        private static DateOnly convert(DateTime date)
+        {
+            return new DateOnly(date.Year, date.Month, date.Day);
+        }
 
         public static TemporadaDTO mapping(Temporada temporada)
         {
+       
             return new TemporadaDTO
             {
-                IdTemporada = temporada.IdTemporada,
-                FechaInicio = temporada.FechaInicio,
-                FechaFin = temporada.FechaFin,
-                Descuento = temporada.Descuento,
-                IdTipo = temporada.IdTipo
+                Id = temporada.Id,
+                FechaInicio = convert(temporada.FechaInicio),
+                FechaFin = convert(temporada.FechaFin),
+                Incremento = temporada.Incremento
             };
+        }
+
+        public static Temporada mapping(TemporadaDTO temporada)
+        {
+            return new Temporada
+            {
+                Id = temporada.Id,
+                FechaInicio = convert(temporada.FechaInicio),
+                FechaFin = convert(temporada.FechaFin),
+                Incremento = temporada.Incremento
+            };
+        }
+
+        public static IEnumerable<TemporadaDTO> mapping(IEnumerable<Temporada> data)
+        {
+            return data.Select(mapping);
+        }
+        public static IEnumerable<Temporada> mapping(IEnumerable<TemporadaDTO> data)
+        {
+            return data.Select(mapping);
         }
     }
 }

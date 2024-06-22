@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AW.AccesoDatos;
+using AW.Entidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace Azure_Waters_backend.Models;
@@ -37,6 +38,8 @@ public partial class AzureWatersContext : DbContext
     public virtual DbSet<TipoHabitacion> TipoHabitacion { get; set; }
 
     public virtual DbSet<Usuario> Usuario { get; set; }
+
+    public virtual DbSet<Oferta> Ofertas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -201,27 +204,37 @@ public partial class AzureWatersContext : DbContext
                 .HasConstraintName("FK__Habitacion__Reserva");
         });
 
-        modelBuilder.Entity<Temporada>(entity =>
+
+        modelBuilder.Entity<Oferta>(entity =>
         {
-            entity.HasKey(e => e.IdTemporada).HasName("PK__Id__Temporada");
+            entity.ToTable("Oferta");
 
-            entity.Property(e => e.IdTemporada).HasColumnName("id_temporada");
-            entity.Property(e => e.Descuento)
-                .HasColumnType("numeric(4, 2)")
-                .HasColumnName("descuento");
-            entity.Property(e => e.FechaFin)
-                .HasColumnType("date")
-                .HasColumnName("fecha_fin");
+            entity.HasKey(e => e.Id);
+
             entity.Property(e => e.FechaInicio)
-                .HasColumnType("date")
+                .IsRequired()
                 .HasColumnName("fecha_inicio");
-            entity.Property(e => e.IdTipo).HasColumnName("id_tipo");
 
-            entity.HasOne(d => d.IdTipoNavigation).WithMany(p => p.Temporada)
-                .HasForeignKey(d => d.IdTipo)
+            entity.Property(e => e.FechaFin)
+                .IsRequired()
+                .HasColumnName("fecha_fin");
+
+            entity.Property(e => e.Descuento)
+                .IsRequired()
+                .HasColumnType("NUMERIC(4,2)")
+                .HasColumnName("descuento");
+
+            entity.Property(e => e.IdTipoHabitacion)
+                .IsRequired()
+                .HasColumnName("id_tipo_habitacion");
+
+            entity.HasOne(d => d.TipoHabitacion)
+                .WithMany(p => p.Ofertas)
+                .HasForeignKey(d => d.IdTipoHabitacion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__TipoHabitacion__Temporada");
+                .HasConstraintName("fk_oferta_habitacion");
         });
+
 
         modelBuilder.Entity<TipoHabitacion>(entity =>
         {
