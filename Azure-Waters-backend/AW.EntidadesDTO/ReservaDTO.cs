@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AW.EntidadesDTO.interfaces;
 using Azure_Waters_backend.Models;
 
 namespace AW.EntidadesDTO
@@ -25,7 +24,7 @@ namespace AW.EntidadesDTO
         public string Payment_card { get; set; }
 
 
-        public static ReservaDTO Mapping(Reserva reserva)
+        /*public static ReservaDTO mapping(Reserva reserva)
         {
             return new ReservaDTO
             {
@@ -36,9 +35,24 @@ namespace AW.EntidadesDTO
                 Room_type_id = reserva.IdHabitacionNavigation.IdTipo,
                 Room = HabitacionRevisionDTO.mapping(reserva.IdHabitacionNavigation, reserva.IdHabitacionNavigation.IdTipoNavigation)
             };
+        }*/
+        public static ReservaDTO mapping(Reserva reserva)
+        {
+            return new ReservaDTO
+            {
+                Id = reserva.IdReserva,
+                Guid = reserva.Guid,
+                Arriving = reserva.FechaInicio,
+                Departing = reserva.FechaFin,
+                Room_type_id = reserva.IdHabitacionNavigation?.IdTipo,  // Uso de operador null condicional
+                Room = reserva.IdHabitacionNavigation != null ?
+                       HabitacionRevisionDTO.mapping(reserva.IdHabitacionNavigation, reserva.IdHabitacionNavigation.IdTipoNavigation) :
+                       null  // Verificación null para IdHabitacionNavigation y llamada condicional a HabitacionRevisionDTO.mapping
+            };
         }
 
-        public static Reserva Mapping(ReservaDTO reservaDTO)
+
+        public static Reserva mapping(ReservaDTO reservaDTO)
         {
             Reserva res = new Reserva()
             {
