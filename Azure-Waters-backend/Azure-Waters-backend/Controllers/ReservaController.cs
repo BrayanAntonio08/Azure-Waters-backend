@@ -32,5 +32,19 @@ namespace Azure_Waters_backend.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteReserva(int id)
+        {
+            bool result = reservaRN.Delete(id);
+            if (result)
+            {
+                return Ok(new { message = "Reserva eliminada correctamente" });
+            }
+            else
+            {
+                return NotFound(new { message = "Reserva no encontrada" });
+            }
+        }
+
     }
 }

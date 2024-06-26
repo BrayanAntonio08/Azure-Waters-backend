@@ -53,5 +53,10 @@ namespace AW.ReglasNegocio
 
             return result;
         }
+
+        public bool Delete(int id)
+        {
+            return reservaDatos.Delete(id);
+        }
     }
 }

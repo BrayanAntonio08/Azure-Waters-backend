@@ -50,5 +50,18 @@ namespace AW.AccesoDatos
                 .ToList();
         }
 
+        public bool Delete(int id)
+        {
+            var reserva = _context.Reserva.Find(id);
+            if (reserva == null)
+            {
+                return false;
+            }
+
+            _context.Reserva.Remove(reserva);
+            _context.SaveChanges();
+            return true;
+        }
+
     }
 }
