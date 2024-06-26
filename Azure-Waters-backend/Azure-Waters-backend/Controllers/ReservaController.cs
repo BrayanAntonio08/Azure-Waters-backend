@@ -1,5 +1,6 @@
 ﻿using AW.EntidadesDTO;
 using AW.ReglasNegocio;
+using Azure_Waters_backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,12 @@ namespace Azure_Waters_backend.Controllers
     [ApiController]
     public class ReservaController : ControllerBase
     {
+        private readonly ReservaRN reservaRN;
+        public ReservaController()
+        {
+            reservaRN = new ReservaRN();
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateReserva([FromBody] ReservaDTO reservaDTO)
         {
@@ -17,5 +24,27 @@ namespace Azure_Waters_backend.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetReservaciones(int pageNumber = 1, int pageSize = 20)
+        {
+            var result = reservaRN.GetReservaciones(pageNumber, pageSize);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteReserva(int id)
+        {
+            bool result = reservaRN.Delete(id);
+            if (result)
+            {
+                return Ok(new { message = "Reserva eliminada correctamente" });
+            }
+            else
+            {
+                return NotFound(new { message = "Reserva no encontrada" });
+            }
+        }
+
     }
 }
