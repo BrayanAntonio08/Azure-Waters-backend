@@ -8,13 +8,6 @@ namespace AW.ReglasNegocio
 {
     public class FacilidadRN
     {
-        private readonly FacilidadDatos facilidadDatos;
-
-        public FacilidadRN()
-        {
-            facilidadDatos = new FacilidadDatos();
-        }
-
         public List<FacilidadDTO> GetFacilidades()
         {
             FacilidadDatos facilidadDatos = new FacilidadDatos();
