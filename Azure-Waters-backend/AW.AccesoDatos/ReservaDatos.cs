@@ -1,4 +1,5 @@
 ﻿using Azure_Waters_backend.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,32 @@ namespace AW.AccesoDatos
             reserva.IdHabitacionNavigation.IdTipoNavigation = _context.TipoHabitacion.FirstOrDefault(t => t.IdTipo == reserva.IdHabitacionNavigation.IdTipo);
 
             return reserva;
+        }
+
+
+        public List<Reserva> GetReservaciones(int pageNumber, int pageSize)
+        {
+            return _context.Reserva
+                .Include(r => r.IdHabitacionNavigation)
+                .ThenInclude(h => h.IdTipoNavigation)
+                .Include(r => r.IdClienteNavigation) // Incluir Cliente
+                .OrderBy(r => r.FechaInicio)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
+
+        public bool Delete(int id)
+        {
+            var reserva = _context.Reserva.Find(id);
+            if (reserva == null)
+            {
+                return false;
+            }
+
+            _context.Reserva.Remove(reserva);
+            _context.SaveChanges();
+            return true;
         }
 
     }
