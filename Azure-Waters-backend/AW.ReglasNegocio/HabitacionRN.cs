@@ -66,6 +66,8 @@ namespace AW.ReglasNegocio
         public void UpdateTipoHabitacion(TipoHabitacionDTO tipoHabitacionDTO)
         {
             HabitacionDatos datos = new HabitacionDatos();
+            TipoHabitacion request = TipoHabitacionDTO.mapping(tipoHabitacionDTO);
+            datos.UpdateTipoHabitacion(request);
             TipoHabitacion tipoHabitacion = datos.GetTipoHabitacionById(tipoHabitacionDTO.Id);
             if (tipoHabitacion != null)
             {
@@ -90,9 +92,16 @@ namespace AW.ReglasNegocio
             if(resultado != null)
             {
                 TipoHabitacion tipo = habitacionDatos.GetTiposHabitacion().FirstOrDefault(t => t.IdTipo == resultado.IdTipo);
-
                 HabitacionRevisionDTO habitacionLibre = HabitacionRevisionDTO.mapping(resultado, tipo);
-                
+
+                // calcular precio final
+                ReservaDatos reservaDatos = new ReservaDatos();
+                decimal finalPrice = 0;
+                for (DateTime fecha = (DateTime)consulta.Arriving; fecha <= consulta.Departing; fecha = fecha.AddDays(1))
+                {
+                    finalPrice += reservaDatos.CalculateDayCost(fecha, (int)consulta.Room_type_id);
+                }
+                habitacionLibre.Price = finalPrice;
                 return habitacionLibre;
             }
             return null;

@@ -1,4 +1,5 @@
-﻿using Azure_Waters_backend.Models;
+﻿using AW.Entidades;
+using Azure_Waters_backend.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,30 @@ namespace AW.AccesoDatos
             return reserva;
         }
 
+        public decimal CalculateDayCost(DateTime date, int tipoHabitacion)
+        {
+            decimal dayCost = 0;
+            DateTime dateTime = new DateTime(2000, date.Month, date.Day);
+
+            TipoHabitacion room = _context.TipoHabitacion.Find(tipoHabitacion);
+            if(room != null) {
+                dayCost = (decimal)room.Precio;
+                
+                decimal incremento = _context.Temporada.Where(t => (t.FechaFin >= dateTime && t.FechaInicio <= dateTime) || (t.FechaInicio > t.FechaFin && (dateTime <= t.FechaFin || t.FechaInicio <= dateTime))).First().Incremento;
+
+                List<Oferta> ofertas = _context.Ofertas.Where(t => t.FechaFin >= dateTime && t.FechaInicio <= dateTime).ToList();
+                decimal descuento = 0;
+                foreach(Oferta oferta in ofertas)
+                {
+                    descuento += (decimal)oferta.Descuento;
+                }
+
+                dayCost += (decimal)room.Precio * incremento / 100;
+                dayCost -= (decimal)room.Precio * descuento / 100;
+            }
+
+            return dayCost;
+        }
 
         public List<Reserva> GetReservaciones(int pageNumber, int pageSize)
         {
