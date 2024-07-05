@@ -1,4 +1,5 @@
-﻿using AW.EntidadesDTO;
+﻿using AW.AccesoDatos;
+using AW.EntidadesDTO;
 using AW.ReglasNegocio;
 using Azure_Waters_backend.Models;
 using Microsoft.AspNetCore.Http;
@@ -27,18 +28,58 @@ namespace Azure_Waters_backend.Controllers
             return Ok(rn.GetHabitaciones());
         }
 
+        //[HttpGet]
+        //[Route("disponibilidad")]
+        //public async Task<IActionResult> ConsultarDisponibilidad([FromQuery] DateTime fechaInicio, [FromQuery] DateTime fechaFinal, [FromQuery] int? idTipoHabitacion)
+        //{
+        //    HabitacionRN rn = new HabitacionRN();
+
+        //    var habitacionesDisponibles = await rn.ObtenerHabitacionesDisponibles(fechaInicio, fechaFinal, idTipoHabitacion);
+
+        //    // No se calcula la tarifa total por ahora
+
+        //    return Ok(habitacionesDisponibles);
+        //}
+
+
+
+
+
+
+        //04/07 COMENTADO
+        /*
         [HttpGet]
         [Route("disponibilidad")]
         public async Task<IActionResult> ConsultarDisponibilidad([FromQuery] DateTime fechaInicio, [FromQuery] DateTime fechaFinal, [FromQuery] int? idTipoHabitacion)
         {
-            HabitacionRN rn = new HabitacionRN();
+            try
+            {
+                HabitacionRN rn = new HabitacionRN();
+                var habitacionesDisponibles = await rn.ObtenerHabitacionesDisponibles(fechaInicio, fechaFinal, idTipoHabitacion);
 
-            var habitacionesDisponibles = await rn.ObtenerHabitacionesDisponibles(fechaInicio, fechaFinal, idTipoHabitacion);
+                // Devolver las habitaciones disponibles como JSON
+                return Ok(habitacionesDisponibles);
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores: Devolver un mensaje de error adecuado en caso de excepción
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error al consultar habitaciones disponibles: {ex.Message}");
+            }
+        }*/
 
-            // No se calcula la tarifa total por ahora
+        [HttpGet("disponibilidades")]
+        public IActionResult ConsultarDisponibilidad(DateTime fechaInicio, DateTime fechaFin, int? idTipoHabitacion)
+        {
+            HabitacionDatos habitacionDatos = new HabitacionDatos();
+            if (fechaInicio >= fechaFin)
+            {
+                return BadRequest("La fecha inicial debe ser menor a la fecha final");
+            }
 
-            return Ok(habitacionesDisponibles);
+            var disponibilidad = habitacionDatos.ConsultarDisponibilidad(fechaInicio, fechaFin, idTipoHabitacion);
+            return Ok(disponibilidad);
         }
+        //AQUI TERMINA NEW 04/07
 
         [HttpPost]
         [Route("revisar")]
