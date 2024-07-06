@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AW.Entidades;
 
 namespace AW.AccesoDatos
 {
@@ -121,5 +122,27 @@ namespace AW.AccesoDatos
             _context.SaveChanges();
         }
 
+
+        //NEW DISPONIBILIDAD HABITACION ERICKA 04/07
+        public List<HabitacionDto> ConsultarDisponibilidad(DateTime fechaInicio, DateTime fechaFin, int? idTipoHabitacion)
+        {
+            var habitacionesDisponibles = _context.Habitacion
+                .Include(h => h.IdTipoNavigation)
+                .Where(h => h.Activa == true && h.Reservada == false)
+                .Where(h => idTipoHabitacion == null || h.IdTipo == idTipoHabitacion)
+                .Where(h => !_context.Reserva.Any(r =>
+                    r.IdHabitacion == h.IdHabitacion &&
+                    ((r.FechaInicio >= fechaInicio && r.FechaInicio <= fechaFin) ||
+                    (r.FechaFin >= fechaInicio && r.FechaFin <= fechaFin) ||
+                    (r.FechaInicio <= fechaInicio && r.FechaFin >= fechaFin))))
+                .ToList();
+
+            return habitacionesDisponibles.Select(h => new HabitacionDto
+            {
+                Numero = h.Numero,
+                TipoHabitacion = h.IdTipoNavigation.Nombre,
+                CostoEstadia = (fechaFin - fechaInicio).Days * (h.IdTipoNavigation.Precio ?? 0)
+            }).ToList();
+        }
     }
 }
