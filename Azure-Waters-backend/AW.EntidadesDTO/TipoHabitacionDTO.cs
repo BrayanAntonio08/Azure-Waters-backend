@@ -27,5 +27,17 @@ namespace AW.EntidadesDTO
                 Image = value.Imagen != null ? ImagenDTO.mapping(value.Imagen) : null
             };
         }
+        public static TipoHabitacion mapping(TipoHabitacionDTO value)
+        {
+            return new TipoHabitacion
+            {
+                IdTipo = value.Id,
+                Nombre = value.Name,
+                Precio = value.Price,
+                Descripcion = value.Description,
+                ImagenId = value.ImagenId,
+                Imagen = value.Image != null ? ImagenDTO.mapping(value.Image) : null
+            };
+        }
     }
 }

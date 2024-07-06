@@ -48,6 +48,11 @@ namespace AW.AccesoDatos
 
         public void UpdateTipoHabitacion(TipoHabitacion tipoHabitacion)
         {
+            if(tipoHabitacion.Imagen != null && tipoHabitacion.Imagen.Id == 0)
+            {
+                tipoHabitacion.Imagen = _context.Imagen.Add(tipoHabitacion.Imagen).Entity;
+                tipoHabitacion.ImagenId = tipoHabitacion.Imagen.Id;
+            }
             _context.TipoHabitacion.Update(tipoHabitacion);
             _context.SaveChanges();
         }
